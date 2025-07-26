@@ -22,4 +22,12 @@ productRouter.delete('/:id', (req, res) => {
     res.send('delete a product');
 });
 
+productRouter.get('/alerts/low-stock', (req, res) => {
+    res.send('get alerts for products which are low in stock');
+});
+
+productRouter.get('/alerts/expiring-soon', (req, res) => {
+    res.send('get alerts for products which are expiring soon');
+});
+
 export default productRouter;

@@ -1,24 +1,25 @@
 import express from 'express'
 import productRouter from './routes/product.routes.js';
-import saleRouter from './routes/sale.routes.js';
-import purchaseRouter from './routes/purchase.routes.js';
-import alertRouter from './routes/alert.routes.js';
+import transactionRouter from './routes/transaction.routes.js'
+import { PORT } from './config/env.js';
+import connectToDatabase from './config/mongodb.js';
+import errorMiddleware from  './middlewares/error.middleware.js';
 
 const app = express();
 
-const PORT = 5500;
-
 app.use('api/v1/products', productRouter);
-app.use('api/v1/sales', saleRouter);
-app.use('api/v1/purchases', purchaseRouter);
-app.use('api/v1/alerts', alertRouter);
+app.use('api/v1/transcation', transactionRouter);
+
+app.use(errorMiddleware);
 
 app.get('/',(req, res) => {
     res.send('Welcome to iinvenory management API');
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`API is working on http://localhost:${PORT}`);
+
+    await connectToDatabase();
 });
 
 export default app;
