@@ -7,8 +7,10 @@ import errorMiddleware from  './middlewares/error.middleware.js';
 
 const app = express();
 
-app.use('api/v1/products', productRouter);
-app.use('api/v1/transcation', transactionRouter);
+app.use(express.json());
+
+app.use('/api/v1/products', productRouter);
+app.use('/api/v1/transcations', transactionRouter);
 
 app.use(errorMiddleware);
 

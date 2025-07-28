@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { DB_URL } from "./env";
+import { DB_URL } from "./env.js";
 
 if (!DB_URL) {
     throw new Error(`Please define the DB_URL in the environment varibles inside .env`);

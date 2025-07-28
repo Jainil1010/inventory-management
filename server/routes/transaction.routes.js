@@ -1,14 +1,13 @@
 import { Router } from "express";
+import { getAllTransactions, getTransactionById, purchaseProduct } from "../controllers/transaction.controller.js";
 
 const transactionRouter = Router();
 
-transactionRouter.get('/', (req, res) => {
-    res.send('get all transaction');
-});
+transactionRouter.get('/', getAllTransactions);
 
-transactionRouter.post('/purchase', (req, res) => {
-    res.send('add a purchase');
-});
+transactionRouter.get('/:id', getTransactionById);
+
+transactionRouter.post('/purchase', purchaseProduct);
 
 transactionRouter.post('/sale', (req, res) => {
     res.send('add a sale');
