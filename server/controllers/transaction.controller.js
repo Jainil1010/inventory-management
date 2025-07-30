@@ -1,7 +1,7 @@
 import Product from '../models/product.model.js';
 import Transaction from '../models/transcation.model.js';
 
-// To add the detailes fo the purchased product and the transaction detailes
+// To add the detailes of the purchased product and the transaction detailes
 export const purchaseProduct = async (req, res, next) => {
     try {
         const { name, category, quantity, price, expiryDate } = req.body;;
@@ -62,6 +62,35 @@ export const getTransactionById = async (req, res, next) => {
         }
         
         res.status(200).json({ success: true, data: transaction });
+    } catch (error) {
+        next(error);
+    }
+}
+
+// To add the transaction of the sale product and updating the product quantity
+export const saleProduct = async (req, res, next) => {
+    try {
+        const { name, quantity, price } = req.body;
+
+        const product = await Product.findOne({ name });
+
+        if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+
+        if (product.quantity < quantity) return res.status(400).json({ success: false, message: 'Not enough stock avilable' });
+
+        product.quantity -= quantity;
+        await product.save();
+
+        const transaction = new Transaction({
+            type: 'sale',
+            product: product._id,
+            quantity,
+            priceAtTime: price || product.price
+        });
+
+        await transaction.save();
+
+        res.status(201).json({ success: true, data: product, transaction });
     } catch (error) {
         next(error);
     }
