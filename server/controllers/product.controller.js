@@ -26,3 +26,19 @@ export const getProductById = async (req, res, next) => {
         next(error);
     }
 }
+
+// Delete a product from the mongodb
+export const deleteProduct = async (req, res, next) => {
+    try {
+        const deleteProduct = await Product.findByIdAndDelete(req.paranns.id);
+        if (!product) {
+            const error = new Error('Product not found');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        res.status(200).json({ success: true, data: deleteProduct });
+    } catch (error) {
+        next(error);
+    }
+}

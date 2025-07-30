@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { getAllProducts, getProductById } from "../controllers/product.controller.js";
+import { deleteProduct, getAllProducts, getProductById } from "../controllers/product.controller.js";
+import { getExpiringSoonProducts, getLowStockProducts } from "../controllers/alert.controller.js";
 
 const productRouter = Router();
 
@@ -7,20 +8,10 @@ productRouter.get('/', getAllProducts);
 
 productRouter.get('/:id', getProductById);
 
-productRouter.put('/:id', (req, res) => {
-    res.send('update a product');
-});
+productRouter.delete('/:id', deleteProduct);
 
-productRouter.delete('/:id', (req, res) => {
-    res.send('delete a product');
-});
+productRouter.get('/alerts/low-stock', getLowStockProducts);
 
-productRouter.get('/alerts/low-stock', (req, res) => {
-    res.send('get alerts for products which are low in stock');
-});
-
-productRouter.get('/alerts/expiring-soon', (req, res) => {
-    res.send('get alerts for products which are expiring soon');
-});
+productRouter.get('/alerts/expiring-soon', getExpiringSoonProducts);
 
 export default productRouter;
