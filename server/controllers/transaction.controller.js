@@ -95,3 +95,28 @@ export const saleProduct = async (req, res, next) => {
         next(error);
     }
 }
+
+// Filter transactions by type (sale or purchase)
+export const filterTransactionByType = async (req, res, next) => {
+    try {
+        const { type } = req.query;
+
+        let validTypes = ['purchase', 'sale'];
+
+        let filter = {};
+        if(type) {
+            if (!validTypes.includes(type)) return res.status(400).json({ success: false, message: 'Invalid trasaction type' });
+
+            filter.type = type;
+        }
+
+        const trancaction = await Transaction.find({ type });
+        if (!trancaction.length) return res.status(404).json({ success: false, message: `${type} transaction not found` });
+
+        console.log('Received transaction type:', type)
+        
+        res.status(200).json({ success: true, data: trancaction });
+    } catch (error) {
+        next(error);
+    }
+}
