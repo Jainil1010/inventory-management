@@ -12,13 +12,17 @@ const productSchema = new mongoose.Schema({
         type: Number, 
         required: [true, 'Quantity of product is required']
     },
-    price: { 
+    purchasePrice: { 
         type: Number, 
-        required: [true, 'Pricde of the product is required'] 
+        required: [true, 'Purchas price of the product is required'] 
+    },
+    marketPrice: { 
+        type: Number, 
+        required: [true, 'Market price of the product is required'] 
     },
     expiryDate: { 
         type: Date,
-        require: true 
+        required: true 
     }
 }, { timestamps: true });
 
