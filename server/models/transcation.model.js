@@ -16,9 +16,13 @@ const transcationSchema = new mongoose.Schema({
         type: Number, 
         required: [true, 'Quantity is required'] 
     },
-    priceAtTime: { 
+    unitPrice: { 
         type: Number, 
-        required: [true, 'Price is required'] 
+        required: [true, 'Unit Price is required'] 
+    },
+    totalPrice: { 
+        type: Number, 
+        required: [true, 'Total Price is required'] 
     }
 }, { timestamps: true });
 
