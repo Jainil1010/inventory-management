@@ -72,7 +72,9 @@ export const getTransactionById = async (req, res, next) => {
 // To add the transaction of the sale product and updating the product quantity
 export const saleProduct = async (req, res, next) => {
     try {
-        const { name, quantity, price } = req.body;
+        const { name, quantity, marketPrice, totalPrice } = req.body;
+
+        const autoCalculatedTotalPrice = quantity * marketPrice;
 
         const product = await Product.findOne({ name });
 
@@ -87,7 +89,8 @@ export const saleProduct = async (req, res, next) => {
             type: 'sale',
             product: product._id,
             quantity,
-            priceAtTime: price || product.price
+            unitPrice: marketPrice || product.marketPrice,
+            totalPrice: autoCalculatedTotalPrice || totalPrice
         });
 
         await transaction.save();

@@ -6,7 +6,7 @@
 ## Mongoose schema: products, transactions
 
 ## Major problems with the curret structure and logic
-- [ ] No Total Price in Transactions
-- [ ] Selling at Purchase Price (No Profit Margin)
+- [x] No Total Price in Transactions
+- [x] Selling at Purchase Price (No Profit Margin)
 - [ ] No Market Price History or Update Mechanism
-- [ ] Product Only Stores One Price
+- [x] Product Only Stores One Price
