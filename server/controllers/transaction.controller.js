@@ -4,7 +4,7 @@ import Transaction from '../models/transcation.model.js';
 // To add the detailes of the purchased product and the transaction detailes
 export const purchaseProduct = async (req, res, next) => {
     try {
-        const { name, category, quantity, price, expiryDate } = req.body;;
+        const { name, category, quantity, purchasePrice, marketPrice, expiryDate, totalPrice } = req.body;;
         let product = await Product.findOne({ name });
 
         // Add a new product if the product does not exists else update the product quantity, price and expiry date if exixts
@@ -13,16 +13,17 @@ export const purchaseProduct = async (req, res, next) => {
                 name,
                 category,
                 quantity,
-                price,
+                purchasePrice,
+                marketPrice,
                 expiryDate
             });
             await product.save();
         }
         else {
             product.quantity += quantity;
-            if (price) product.price = price;
+            if (purchasePrice) product.purchasePrice = purchasePrice;
             if (expiryDate) product.expiryDate = expiryDate;
-            await product.save;
+            await product.save();
         }
 
         // Adding the transcation detailes for the purchase
@@ -30,7 +31,8 @@ export const purchaseProduct = async (req, res, next) => {
             type: 'purchase',
             product: product._id,
             quantity,
-            priceAtTime: price || product.price
+            unitPrice: purchasePrice || product.purchasePrice,
+            totalPrice
         });
         await transaction.save();
 
