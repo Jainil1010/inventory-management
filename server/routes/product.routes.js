@@ -10,7 +10,7 @@ productRouter.get('/:id', getProductById);
 
 productRouter.delete('/:id', deleteProduct);
 
-productRouter.get('/alerts/low-stock', getLowStockProducts);
+productRouter.get('/alerts/low-in-stock', getLowStockProducts);
 
 productRouter.get('/alerts/expiring-soon', getExpiringSoonProducts);
 
