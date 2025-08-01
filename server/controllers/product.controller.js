@@ -42,3 +42,25 @@ export const deleteProduct = async (req, res, next) => {
         next(error);
     }
 }
+
+// Update the market price of the product
+export const updateMarketPrice = async (req, res, next) => {
+    try {
+        const { marketPrice } = req.body;
+
+        const product = await Product.findById(req.params.id);
+
+        if (!product) {
+            const error = new Error('Product not found');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        product.marketPrice = marketPrice;
+        await product.save();
+
+        res.status(200).json({ success: true, data: product });
+    } catch (error) {
+        next(error);
+    }
+}
