@@ -1,5 +1,16 @@
 import mongoose, { Mongoose } from "mongoose";
 
+const priceHistorySchema = new mongoose.Schema({
+    date: {
+        type: Date,
+        default: Date.now,
+    },
+    marketPrice: {
+        type: Number,
+        required: true
+    }
+});
+
 const productSchema = new mongoose.Schema({
     name: { 
         type: String, 
@@ -23,8 +34,18 @@ const productSchema = new mongoose.Schema({
     expiryDate: { 
         type: Date,
         required: true 
-    }
+    },
+    priceHistory: [priceHistorySchema]
 }, { timestamps: true });
+
+productSchema.pre('save', function(next){
+    if (this.isNew || this.isModified('marketPrice')){
+        this.priceHistory.push({
+            marketPrice: this.marketPrice
+        });
+    }
+    next();
+});
 
 const Product = mongoose.model('Product', productSchema);
 
